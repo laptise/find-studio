@@ -8,7 +8,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: Kk@k172988 #required
-      # MYSQL_DATABASE: employees #optional
+      MYSQL_DATABASE: findStudio #optional
       # MYSQL_USER: user #optional
       # MYSQL_PASSWORD: P@ssw0rd #optional
       # MYSQL_ALLOW_EMPTY_PASSWORD: "yes" #optional
@@ -20,8 +20,11 @@ services:
     volumes:
       - ./data/mysql:/var/lib/mysql
       - ./conf:/etc/mysql/conf.d
+    command: --default-authentication-plugin=mysql_native_password
 
   front:
+    depends_on:
+      - db
     build:
       context: app
       dockerfile: Dockerfile

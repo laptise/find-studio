@@ -27,3 +27,7 @@ docker rm $(docker ps -aq)
 ```
 docker rmi $(docker images -q)
 ```
+
+# typeOrm
+
+https://github.com/typeorm/typeorm

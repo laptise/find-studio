@@ -101,7 +101,7 @@ const Searcher = () => {
 
 const Home: NextPage = () => {
   const test = async () => {
-    const res: any[] = await window.fetch("/api/stations").then((res) => res.ok && res.json());
+    const res: any[] = await window.fetch("/api/hello").then((res) => res.ok && res.json());
     console.log(res);
   };
 
