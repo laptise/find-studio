@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS stations;
+DROP TABLE IF EXISTS station;
 
-CREATE TABLE stations (
+CREATE TABLE station (
     stationCd int,
     stationGCd int,
     stationName varchar(10),

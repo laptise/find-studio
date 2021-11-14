@@ -4,9 +4,10 @@ import Line from "../entities/line";
 import Station from "../entities/station";
 
 export async function connection() {
-  return (
-    getConnection() ||
-    createConnection({
+  try {
+    return getConnection();
+  } catch {
+    return createConnection({
       type: "mysql",
       host: "db",
       port: 3306,
@@ -16,6 +17,6 @@ export async function connection() {
       entities: [Station, Line],
       synchronize: true,
       logging: false,
-    })
-  );
+    });
+  }
 }
