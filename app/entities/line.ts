@@ -2,10 +2,13 @@ import { Column, Entity, PrimaryColumn } from "typeorm";
 
 @Entity()
 export default class Line {
+  /**路線コード */
   @PrimaryColumn("int")
   lineCd: number;
+  /**会社コード */
   @Column("int")
   companyCd: number;
+  /**路線名 */
   @Column("text")
   lineName: string;
   @Column("text")
