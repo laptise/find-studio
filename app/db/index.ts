@@ -1,17 +1,21 @@
 import "reflect-metadata";
-import { createConnection } from "typeorm";
+import { createConnection, getConnection } from "typeorm";
+import Line from "../entities/line";
 import Station from "../entities/station";
 
 export async function connection() {
-  return createConnection({
-    type: "mysql",
-    host: "db",
-    port: 3306,
-    username: "root",
-    password: "Kk@k172988",
-    database: "findStudio",
-    entities: [Station],
-    synchronize: true,
-    logging: false,
-  });
+  return (
+    getConnection() ||
+    createConnection({
+      type: "mysql",
+      host: "db",
+      port: 3306,
+      username: "root",
+      password: "Kk@k172988",
+      database: "findStudio",
+      entities: [Station, Line],
+      synchronize: true,
+      logging: false,
+    })
+  );
 }

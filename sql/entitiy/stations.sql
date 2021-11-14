@@ -10,7 +10,7 @@ CREATE TABLE stations (
     prefCd int,
     post varchar(10),
     address varchar(40),
-    lon decimal,
+    lng decimal,
     lat decimal,
     openYmd varchar(8),
     closeYmd varchar(8),

@@ -1,13 +1,13 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import { connection } from "../../db";
-import Station from "../../entities/station";
-import stations from "../../stations.json";
+import { connection } from "../../../db";
+import Station from "../../../entities/station";
+import stations from "../../../stations.json";
 type Data = {
   name: string;
 };
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<string>) {
   const entities = (stations as any[]).map((x) => {
     const entity = new Station(x["station_cd"]);
     entity.stationName = x["station_name"];
@@ -30,5 +30,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     await db.getRepository(Station).save(entities);
     await db.close();
   });
-  res.status(200).json({ name: "John Doe" });
+  res.status(200).write("ok");
 }
