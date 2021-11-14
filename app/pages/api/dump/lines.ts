@@ -27,7 +27,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const entities = (lines as any[]).map((x) => fromData(x));
   await connection().then(async (db) => {
     await db.getRepository(Line).save(entities);
-    await db.close();
   });
   res.status(200).write("ok");
 }

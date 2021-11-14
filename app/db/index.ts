@@ -14,7 +14,7 @@ export async function connection() {
       username: "root",
       password: "Kk@k172988",
       database: "findStudio",
-      entities: [Station, Line],
+      entities: [Line, Station],
       synchronize: true,
       logging: false,
     });
