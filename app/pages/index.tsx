@@ -3,6 +3,8 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
+import { connectToDb } from "../db";
+import StationByLines from "../entities/station-by-lines";
 import { db } from "../firebase";
 import { Line, linesRef, Station, stationsRef, studiosRef } from "../firebase/databases";
 import styles from "../styles/Home.module.css";
@@ -20,25 +22,26 @@ const StationSeracher = () => {
   };
 
   const search = async (value: string) => {
-    const q = query(stationsRef, orderBy("station_name"), startAt(value), endAt(value + "\uf8ff"));
-    const stations = await getDocs(q).then((x) => x.docs.map((x) => x.data()));
-    const datas = await Promise.all(
-      stations.map(async (station) => {
-        const docRef = doc(linesRef, String(station.line_cd));
-        const line = (await getDoc(docRef).then((x) => x.data())) as Line;
-        return { station, line };
-      })
-    );
-    const filters = datas.reduce<StatonWithLines[]>((res, set) => {
-      const exist = res.find((x) => x.station.station_g_cd === set.station.station_g_cd);
-      if (exist) {
-        exist.lines = [...exist.lines, set.line];
-        return res;
-      } else {
-        return [...res, { station: set.station, lines: [set.line] }];
-      }
-    }, [] as StatonWithLines[]);
-    setResults(filters);
+    await fetch(`/api/stations?value=${value}`);
+    // const q = query(stationsRef, orderBy("station_name"), startAt(value), endAt(value + "\uf8ff"));
+    // const stations = await getDocs(q).then((x) => x.docs.map((x) => x.data()));
+    // const datas = await Promise.all(
+    //   stations.map(async (station) => {
+    //     const docRef = doc(linesRef, String(station.line_cd));
+    //     const line = (await getDoc(docRef).then((x) => x.data())) as Line;
+    //     return { station, line };
+    //   })
+    // );
+    // const filters = datas.reduce<StatonWithLines[]>((res, set) => {
+    //   const exist = res.find((x) => x.station.station_g_cd === set.station.station_g_cd);
+    //   if (exist) {
+    //     exist.lines = [...exist.lines, set.line];
+    //     return res;
+    //   } else {
+    //     return [...res, { station: set.station, lines: [set.line] }];
+    //   }
+    // }, [] as StatonWithLines[]);
+    // setResults(filters);
   };
 
   const compositionEnd = (value: string) => {

@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import { connection } from "../../../db";
+import { connectToDb } from "../../../db";
 import Line from "../../../entities/line";
 import lines from "../../../lines.json";
 type Data = {
@@ -25,7 +25,7 @@ function fromData(data: any) {
 }
 export default async function handler(req: NextApiRequest, res: NextApiResponse<string>) {
   const entities = (lines as any[]).map((x) => fromData(x));
-  await connection().then(async (db) => {
+  await connectToDb().then(async (db) => {
     await db.getRepository(Line).save(entities);
   });
   res.status(200).write("ok");

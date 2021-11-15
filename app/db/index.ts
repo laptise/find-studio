@@ -2,8 +2,9 @@ import "reflect-metadata";
 import { createConnection, getConnection } from "typeorm";
 import Line from "../entities/line";
 import Station from "../entities/station";
+import StationByLines from "../entities/station-by-lines";
 
-export async function connection() {
+export async function connectToDb() {
   try {
     return getConnection();
   } catch {
@@ -14,7 +15,7 @@ export async function connection() {
       username: "root",
       password: "Kk@k172988",
       database: "findStudio",
-      entities: [Line, Station],
+      entities: [Line, Station, StationByLines],
       synchronize: true,
       logging: false,
     });
