@@ -12,7 +12,7 @@ interface StatonWithLines {
   lines: Line[];
 }
 const StationSeracher = () => {
-  const [results, setResults] = useState<StatonWithLines[]>([]);
+  const [results, setResults] = useState<StationLines[]>([]);
   const [composing, setComposing] = useState(false);
   const keyInput = async (value: string) => {
     if (value.length < 2 || composing) setResults([]);
@@ -20,31 +20,15 @@ const StationSeracher = () => {
   };
 
   const search = async (value: string) => {
-    await fetch(`/api/stations?value=${value}`);
-    // const q = query(stationsRef, orderBy("station_name"), startAt(value), endAt(value + "\uf8ff"));
-    // const stations = await getDocs(q).then((x) => x.docs.map((x) => x.data()));
-    // const datas = await Promise.all(
-    //   stations.map(async (station) => {
-    //     const docRef = doc(linesRef, String(station.line_cd));
-    //     const line = (await getDoc(docRef).then((x) => x.data())) as Line;
-    //     return { station, line };
-    //   })
-    // );
-    // const filters = datas.reduce<StatonWithLines[]>((res, set) => {
-    //   const exist = res.find((x) => x.station.station_g_cd === set.station.station_g_cd);
-    //   if (exist) {
-    //     exist.lines = [...exist.lines, set.line];
-    //     return res;
-    //   } else {
-    //     return [...res, { station: set.station, lines: [set.line] }];
-    //   }
-    // }, [] as StatonWithLines[]);
-    // setResults(filters);
+    const res = (await fetch(`/api/stations?name=${value}`).then((res) => res.ok && res.json())) as StationLines[];
+    res.sort((a, b) => a.stationName.length - b.stationName.length);
+    console.log(res);
+    setResults(res);
   };
 
   const compositionEnd = (value: string) => {
     setComposing(false);
-    search(value);
+    value.length > 1 && search(value);
   };
   return (
     <div id="stationSearcher" className="flex-col">
@@ -56,15 +40,13 @@ const StationSeracher = () => {
       ></input>
       {results?.length > 0 && (
         <div className="resultBox flex-col">
-          {results.map((res) => (
-            <div className="station flex-col" key={res.station.station_cd}>
-              {res.lines.map((line, lineKey) => (
-                <span key={lineKey} className="line">
-                  {line.line_name}
-                </span>
-              ))}
-
-              {res.station.station_name}
+          {results.map((res: StationLines, index) => (
+            <div className="station flex-col" key={index}>
+              <span className="line">
+                {res.lines[0].lineName}
+                {res.lines.length > 1 ? <span className="badge">{res.lines.length}</span> : ""}
+              </span>
+              {res.stationName}
             </div>
           ))}
         </div>

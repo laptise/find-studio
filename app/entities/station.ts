@@ -8,7 +8,6 @@ export class Station extends BaseEntity {
   /**駅グループコード */
   @Column("int")
   stationGCd: number;
-  /**駅名 */
   @Column("text")
   stationName: string;
   @Column("text")
@@ -36,14 +35,4 @@ export class Station extends BaseEntity {
   eStatus: number;
   @Column("int")
   eSort: number;
-  constructor();
-  constructor(id: number);
-  constructor(id?: number) {
-    super();
-    switch (arguments.length) {
-      case 1:
-        this.stationCd = id as number;
-        break;
-    }
-  }
 }

@@ -1,5 +1,7 @@
-import { createConnection, getConnection } from "typeorm";
-import { Line, Station } from "./entities";
+import { BaseEntity, createConnection, EntityTarget, getConnection, getRepository, Repository } from "typeorm";
+import { Line } from "./entities/line";
+import { Station } from "./entities/station";
+// import { Line, Station } from "./entities";
 
 let connectionReadyPromise: Promise<void> | null = null;
 
@@ -23,7 +25,6 @@ export function prepareConnection() {
         password: "Kk@k172988",
         database: "findStudio",
         entities: [Line, Station],
-        synchronize: true,
         logging: false,
       });
     })();
@@ -35,4 +36,9 @@ export function prepareConnection() {
 export async function getDb() {
   await prepareConnection();
   return getConnection();
+}
+
+export async function getTable<Entity>(entityClass: EntityTarget<Entity>, connectionName?: string): Promise<Repository<Entity>> {
+  await prepareConnection();
+  return getRepository(entityClass);
 }
