@@ -1,7 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import { connectToDb } from "../../db";
-import Station from "../../entities/station";
+import { getConnection } from "typeorm";
+import { getDb, prepareConnection } from "../../db";
+import { Station } from "../../entities/station";
 import stations from "../../stations.json";
 type Data = {
   name: string;
@@ -26,9 +27,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     entity.eSort = x["e_sort"];
     return entity;
   });
-  await connectToDb().then(async (db) => {
-    await db.getRepository(Station).save(entities);
-    await db.close();
-  });
+  const db = await getDb();
+  await db.getRepository(Station).save(entities);
+  await db.close();
   res.status(200).json({ name: "John Doe" });
 }

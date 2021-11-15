@@ -1,7 +1,7 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { BaseEntity, Column, Entity, PrimaryColumn } from "typeorm";
 
-@Entity()
-export default class Station {
+@Entity("station")
+export class Station extends BaseEntity {
   /**駅コード */
   @PrimaryColumn("int")
   stationCd: number;
@@ -36,7 +36,14 @@ export default class Station {
   eStatus: number;
   @Column("int")
   eSort: number;
-  constructor(id: number) {
-    this.stationCd = id;
+  constructor();
+  constructor(id: number);
+  constructor(id?: number) {
+    super();
+    switch (arguments.length) {
+      case 1:
+        this.stationCd = id as number;
+        break;
+    }
   }
 }

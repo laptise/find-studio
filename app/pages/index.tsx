@@ -3,14 +3,12 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
-import { connectToDb } from "../db";
-import StationByLines from "../entities/station-by-lines";
 import { db } from "../firebase";
-import { Line, linesRef, Station, stationsRef, studiosRef } from "../firebase/databases";
+import { Line, linesRef, stationsRef, studiosRef } from "../firebase/databases";
 import styles from "../styles/Home.module.css";
 
 interface StatonWithLines {
-  station: Station;
+  station: any;
   lines: Line[];
 }
 const StationSeracher = () => {

@@ -1,8 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import { Like } from "typeorm";
-import { connectToDb } from "../../db";
-import StationByLines from "../../entities/station-by-lines";
+import { BaseEntity, getConnection, Like } from "typeorm";
+import { getDb, prepareConnection } from "../../db";
+import { Station } from "../../entities/station";
 import stations from "../../lines.json";
 type Data = {
   name: string;
@@ -12,9 +12,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const { query } = req;
   const { value } = query;
   console.log(value);
-  const db = await connectToDb();
-  const count = await db.getRepository(StationByLines).find({ stationName: Like(`${value}%`) });
-  console.log(count);
+  await prepareConnection();
+  const db = await getDb();
+  console.log(Station);
+  const rep = await Station.find();
+  console.log(rep);
 
   if (stations instanceof Object) res.status(200).json(stations as any);
 }
