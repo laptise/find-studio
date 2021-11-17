@@ -9,9 +9,9 @@ import {
   Repository,
 } from "typeorm";
 
-import { Line } from "./entities/line";
-import { Prefecture } from "./entities/prefecture";
-import { Station } from "./entities/station";
+import { LineMst } from "./entities/lineMst";
+import { PrefectureMst } from "./entities/prefectureMst";
+import { StationMst } from "./entities/stationsMst";
 // import { Line, Station } from "./entities";
 import { snakeCase } from "typeorm/util/StringUtils";
 
@@ -44,7 +44,7 @@ export function prepareConnection() {
         username: "root",
         password: "Kk@k172988",
         database: "findStudio",
-        entities: [Line, Station, Prefecture],
+        entities: [LineMst, StationMst, PrefectureMst],
         namingStrategy,
         logging: false,
       });

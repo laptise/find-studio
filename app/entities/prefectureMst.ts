@@ -1,7 +1,8 @@
 import { BaseEntity, Column, Entity, PrimaryColumn } from "typeorm";
 
-@Entity("PREF_MST")
-export class Prefecture extends BaseEntity {
+/**都道府県マスタ */
+@Entity()
+export class PrefectureMst extends BaseEntity {
   /**駅コード */
   @PrimaryColumn("int")
   code: number;

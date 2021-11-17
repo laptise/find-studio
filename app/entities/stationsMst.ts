@@ -1,7 +1,8 @@
 import { BaseEntity, Column, Entity, PrimaryColumn } from "typeorm";
 
-@Entity("station")
-export class Station extends BaseEntity {
+/**駅マスタ */
+@Entity()
+export class StationMst extends BaseEntity {
   /**駅コード */
   @PrimaryColumn("int")
   stationCd: number;

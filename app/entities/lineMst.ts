@@ -1,7 +1,8 @@
 import { Column, Entity, PrimaryColumn } from "typeorm";
 
+/**路線マスタ */
 @Entity()
-export class Line {
+export class LineMst {
   /**路線コード */
   @PrimaryColumn("int")
   lineCd: number;
