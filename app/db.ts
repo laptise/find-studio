@@ -1,10 +1,30 @@
-import { BaseEntity, createConnection, EntityTarget, getConnection, getRepository, Repository } from "typeorm";
+import {
+  BaseEntity,
+  createConnection,
+  DefaultNamingStrategy,
+  EntityTarget,
+  getConnection,
+  getRepository,
+  NamingStrategyInterface,
+  Repository,
+} from "typeorm";
+
 import { Line } from "./entities/line";
+import { Prefecture } from "./entities/prefecture";
 import { Station } from "./entities/station";
 // import { Line, Station } from "./entities";
+import { snakeCase } from "typeorm/util/StringUtils";
 
 let connectionReadyPromise: Promise<void> | null = null;
 
+const namingStrategy = new (class extends DefaultNamingStrategy {
+  columnName(propertyName: string, customName: string, embeddedPrefixes: string[]): string {
+    return customName ? customName : snakeCase(propertyName);
+  }
+  tableName(targetName: string, userSpecifiedName: string): string {
+    return userSpecifiedName ? userSpecifiedName : snakeCase(targetName);
+  }
+})();
 export function prepareConnection() {
   if (!connectionReadyPromise) {
     connectionReadyPromise = (async () => {
@@ -24,7 +44,8 @@ export function prepareConnection() {
         username: "root",
         password: "Kk@k172988",
         database: "findStudio",
-        entities: [Line, Station],
+        entities: [Line, Station, Prefecture],
+        namingStrategy,
         logging: false,
       });
     })();

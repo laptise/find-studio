@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 import { BaseEntity, createQueryBuilder, getConnection, getRepository, Like } from "typeorm";
-import { getDb, getTable, prepareConnection } from "../../db";
+import { prepareConnection } from "../../db";
 import { Station } from "../../entities/station";
 import stations from "../../lines.json";
 type Data = {
@@ -16,19 +16,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
 async function searchWithName(name: string, res: NextApiResponse<StationLines[]>) {
   await prepareConnection();
+  const key = `${name}%`;
   const stations = await createQueryBuilder(Station)
-    .select(["max(stationName) as name", "stationGCd code"])
-    .where({ stationName: Like(`${name}%`) })
-    .groupBy("stationGCd")
+    .select(["MAX(station_Name) AS name", "station_G_Cd code"])
+    .where("station_Name LIKE :key", { key })
+    .groupBy("station_G_Cd")
     .getRawMany<{ name: string; code: number }>();
   const stationLines = await Promise.all(
     stations.map(async (station) => {
       const { code } = station;
       const lines = await createQueryBuilder()
-        .select(["l.lineName lineName", "l.lineNameH company"])
+        .select(["l.line_Name lineName", "l.line_Name_H company"])
         .from("line", "l")
-        .innerJoin("station", "s", "l.lineCd = s.lineCd")
-        .where("s.stationGCd = :code", { code })
+        .innerJoin("station", "s", "l.line_Cd = s.line_Cd")
+        .where("s.station_G_Cd = :code", { code })
+        .limit(20)
         .getRawMany<{ lineName: string; company: string }>();
       return { stationName: station.name, lines };
     })
