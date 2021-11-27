@@ -8,7 +8,7 @@ interface Props {
   title: string;
 }
 
-const Layout = ({ children, title }: Props) => {
+const Page = ({ children, title }: Props) => {
   return (
     <>
       <Head>
@@ -34,4 +34,4 @@ const Layout = ({ children, title }: Props) => {
     </>
   );
 };
-export default Layout;
+export default Page;

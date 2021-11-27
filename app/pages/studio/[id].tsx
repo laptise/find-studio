@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import { GetServerSidePropsContext } from "next";
 import { getRepository } from "typeorm";
-import Layout from "../../components/layout";
+import Page from "../../components/page";
 import { Dao } from "../../dao";
 import { getDb, restoreObject, restoreObjects, server, toObject } from "../../db";
 import { Booth } from "../../entities/booth";
@@ -16,7 +16,7 @@ export default function StudioInfo({ studio, boothes }: StudioInfoProps) {
   restoreObject(studio);
   restoreObjects(boothes);
   return (
-    <Layout title={studio.name}>
+    <Page title={studio.name}>
       <div>
         <h1>{studio.name}</h1>
         <div>作成日 : {format(studio.createdAt, "yyyy年MM月dd日 h時m分")}</div>
@@ -28,7 +28,7 @@ export default function StudioInfo({ studio, boothes }: StudioInfoProps) {
           ))}
         </div>
       </div>
-    </Layout>
+    </Page>
   );
 }
 

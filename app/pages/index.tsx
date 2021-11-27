@@ -5,7 +5,7 @@ import { Dao } from "../dao";
 import { restoreObjects, toObject } from "../db";
 import { Studio } from "../entities/studio";
 import Link from "next/link";
-import Layout from "../components/layout";
+import Page from "../components/page";
 
 interface StationSearcherProp {
   stationPicker(station: StationLines): void;
@@ -126,10 +126,10 @@ const NewStudios = ({ newStudios }: Props) => {
 
 const Home = ({ newStudios }: Props) => {
   return (
-    <Layout title="ホーム">
+    <Page title="ホーム">
       <Searcher />
       <NewStudios newStudios={newStudios} />
-    </Layout>
+    </Page>
   );
 };
 
