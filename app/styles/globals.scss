@@ -150,6 +150,12 @@ a {
   .single-studio {
   }
 }
+
+header {
+  display: flex;
+  padding: 10px;
+  justify-content: space-between;
+}
 #searcher {
   width: 80%;
   border: 1px solid #ccc;

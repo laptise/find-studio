@@ -6,17 +6,28 @@ import { Dao } from "../../dao";
 import { getDb, restoreObject, restoreObjects, server, toObject } from "../../db";
 import { Booth } from "../../entities/booth";
 import { Studio } from "../../entities/studio";
-
+import Link from "next/link";
 interface StudioInfoProps {
   studio: Studio;
   boothes: Booth[];
 }
 
+export function AdminBox(id: number) {
+  return (
+    <div>
+      <Link passHref href={`/studio/edit/${id}`}>
+        <button>編集画面へ</button>
+      </Link>
+    </div>
+  );
+}
+
 export default function StudioInfo({ studio, boothes }: StudioInfoProps) {
   restoreObject(studio);
   restoreObjects(boothes);
+  const isAdmin = true;
   return (
-    <Page title={studio.name}>
+    <Page title={studio.name} isAdmin={isAdmin} AdminBox={() => AdminBox(studio.id)}>
       <div>
         <h1>{studio.name}</h1>
         <div>作成日 : {format(studio.createdAt, "yyyy年MM月dd日 h時m分")}</div>

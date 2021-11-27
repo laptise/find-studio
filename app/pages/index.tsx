@@ -109,6 +109,9 @@ const NewStudios = ({ newStudios }: Props) => {
   return (
     <div id="newStudio">
       <h1>新着スタジオ</h1>
+      <Link href="/studio/new" passHref>
+        <caption>もっと見る</caption>
+      </Link>
       {newStudios.map((studio) => (
         <Link href={`/studio/${studio.id}`} key={studio.id} passHref>
           <div className="single-studio">

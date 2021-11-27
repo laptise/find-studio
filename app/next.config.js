@@ -5,4 +5,8 @@ module.exports = {
     typeorm: "commonjs typeorm",
     mysql: "commonjs mysql",
   },
+  i18n: {
+    locales: ["ja-JP"],
+    defaultLocale: "ja-JP",
+  },
 };
