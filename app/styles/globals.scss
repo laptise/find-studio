@@ -133,7 +133,23 @@ a {
     flex-direction: column;
   }
 }
-
+#newStudio {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+    caption {
+      font-size: 13px;
+    }
+  }
+  .single-studio {
+  }
+}
 #searcher {
   width: 80%;
   border: 1px solid #ccc;

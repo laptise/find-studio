@@ -8,8 +8,12 @@ export class Studio extends BaseEntity {
   id: number;
   @Column("text")
   name: string;
+  @Column("text")
+  comment: string;
   @Column("datetime")
   createdAt: Date;
+  @Column("tinyint")
+  isWorkAll: number;
   @Column("datetime")
   updatedAt: Date;
 }

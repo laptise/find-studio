@@ -1,6 +1,7 @@
 import { format } from "date-fns";
 import { GetServerSidePropsContext } from "next";
 import { getRepository } from "typeorm";
+import Layout from "../../components/layout";
 import { Dao } from "../../dao";
 import { getDb, restoreObject, restoreObjects, server, toObject } from "../../db";
 import { Booth } from "../../entities/booth";
@@ -15,17 +16,19 @@ export default function StudioInfo({ studio, boothes }: StudioInfoProps) {
   restoreObject(studio);
   restoreObjects(boothes);
   return (
-    <div>
-      <h1>{studio.name}</h1>
-      <div>作成日 : {format(studio.createdAt, "yyyy年MM月dd日 h時m分")}</div>
-      <div>更新日 : {format(studio.updatedAt, "yyyy年MM月dd日 h時m分")}</div>
+    <Layout title={studio.name}>
       <div>
-        ブース
-        {boothes.map((booth) => (
-          <div key={booth.id}>{booth.name}</div>
-        ))}
+        <h1>{studio.name}</h1>
+        <div>作成日 : {format(studio.createdAt, "yyyy年MM月dd日 h時m分")}</div>
+        <div>更新日 : {format(studio.updatedAt, "yyyy年MM月dd日 h時m分")}</div>
+        <div>
+          ブース
+          {boothes.map((booth) => (
+            <div key={booth.id}>{booth.name}</div>
+          ))}
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 
