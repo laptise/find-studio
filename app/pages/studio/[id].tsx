@@ -7,7 +7,7 @@ import { getDb, restoreObject, restoreObjects, server, toObject } from "../../db
 import { Booth } from "../../entities/booth";
 import { Studio } from "../../entities/studio";
 import Link from "next/link";
-interface StudioInfoProps {
+export interface StudioInfoProps {
   studio: Studio;
   boothes: Booth[];
 }
