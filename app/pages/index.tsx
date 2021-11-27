@@ -1,19 +1,19 @@
-import { doc, getDoc, collection, setDoc, getDocs, query, where, orderBy, startAt, endAt } from "@firebase/firestore";
-import type { NextPage } from "next";
+import type { GetServerSidePropsContext, NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
-import { db } from "../firebase";
-import { Line, linesRef, stationsRef, studiosRef } from "../firebase/databases";
+import { Dao } from "../dao";
+import { toObject } from "../db";
+import { Studio } from "../entities/studio";
 import styles from "../styles/Home.module.css";
 
-interface StatonWithLines {
-  station: any;
-  lines: Line[];
+interface StationSearcherProp {
+  stationPicker(station: StationLines): void;
 }
-const StationSeracher = () => {
+const StationSearcher = ({ stationPicker }: StationSearcherProp) => {
   const [results, setResults] = useState<StationLines[]>([]);
   const [composing, setComposing] = useState(false);
+
   const keyInput = async (value: string) => {
     if (value.length < 2 || composing) setResults([]);
     else search(value);
@@ -31,8 +31,7 @@ const StationSeracher = () => {
     value.length > 1 && search(value);
   };
   return (
-    <div id="stationSearcher" className="flex-col">
-      <label>駅名</label>
+    <>
       <input
         onCompositionStart={() => setComposing(true)}
         onCompositionEnd={(e) => compositionEnd(e.currentTarget.value)}
@@ -41,7 +40,7 @@ const StationSeracher = () => {
       {results?.length > 0 && (
         <div className="resultBox flex-col">
           {results.map((res: StationLines, index) => (
-            <div className="station flex-col" key={index}>
+            <div className="station flex-col" key={index} onClick={() => stationPicker(res)}>
               <span className="line">
                 {res.lines[0].lineName}
                 {res.lines.length > 1 ? <span className="badge">{res.lines.length}</span> : ""}
@@ -50,6 +49,21 @@ const StationSeracher = () => {
             </div>
           ))}
         </div>
+      )}
+    </>
+  );
+};
+
+const Station = () => {
+  const [pickedStation, setPickedStation] = useState<StationLines | null>(null);
+
+  return (
+    <div id="stationSearcher" className="flex-col">
+      <label>駅名</label>
+      {pickedStation ? (
+        <div onClick={() => setPickedStation(null)}>{pickedStation.stationName}</div>
+      ) : (
+        <StationSearcher stationPicker={setPickedStation} />
       )}
     </div>
   );
@@ -72,7 +86,7 @@ const Searcher = () => {
         <input id="userSeach" className={`hide`} type="radio" name="searchType" onChange={() => setIsNormalSearchMode(false)} />
         {isNormalSearchMode ? (
           <div className={"normal"}>
-            <StationSeracher />
+            <Station />
           </div>
         ) : (
           <div className="user">利用者で</div>
@@ -82,12 +96,24 @@ const Searcher = () => {
   );
 };
 
-const Home: NextPage = () => {
-  const test = async () => {
-    const res: any[] = await window.fetch("/api/hello").then((res) => res.ok && res.json());
-    console.log(res);
-  };
+const NewestStudio = () => {
+  return;
+};
 
+interface Props {
+  newStudios: Studio[];
+}
+
+const NewStudios = ({ newStudios }: Props) => (
+  <div>
+    <h1>新着スタジオ</h1>
+    {newStudios.map((studio) => (
+      <div key={studio.id}>{studio.name}</div>
+    ))}
+  </div>
+);
+
+const Home = ({ newStudios }: Props) => {
   return (
     <div id="container">
       <Head>
@@ -97,7 +123,7 @@ const Home: NextPage = () => {
       </Head>
       <main>
         <Searcher />
-        <button onClick={test}>test</button>
+        <NewStudios newStudios={newStudios} />
       </main>
 
       <footer>
@@ -117,3 +143,10 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const newStudios = await Dao.Studio.getNewestStudio().then(toObject);
+  return {
+    props: { newStudios }, // will be passed to the page component as props
+  };
+}
