@@ -7,6 +7,7 @@ import { getDb, restoreObject, restoreObjects, server, toObject } from "../../db
 import { Booth } from "../../entities/booth";
 import { Studio } from "../../entities/studio";
 import Link from "next/link";
+import Image from "next/image";
 export interface StudioInfoProps {
   studio: Studio;
   boothes: Booth[];
@@ -34,13 +35,14 @@ export default function StudioInfo({ studio, boothes }: StudioInfoProps) {
           <span>作成日 : {format(studio.createdAt, "yyyy年MM月dd日 h時m分")}</span>
           <span>更新日 : {format(studio.updatedAt, "yyyy年MM月dd日 h時m分")}</span>
         </div>
+        <p>{studio.comment}</p>
         <div id="boothes">
           <h2> ブース</h2>
           <div className="items">
             {boothes.map((booth) => (
               <div className="single" key={booth.id}>
                 <h3>{booth.name}</h3>
-                <img className="mainPicture" src="#" />
+                {booth.topImage && <Image width={300} height={300} alt={booth.name} className="mainPicture" src={booth.topImage} />}
               </div>
             ))}
           </div>

@@ -4,6 +4,5 @@
     "NODE_ENV": "development"
   },
   "watch": ["src"],
-  "ignore": ["tests/**/*.ts"],
   "exec": "ts-node ./src/app.ts"
 }

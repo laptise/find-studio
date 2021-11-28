@@ -9,4 +9,8 @@ module.exports = {
     locales: ["ja-JP"],
     defaultLocale: "ja-JP",
   },
+  images: {
+    domains: ["firebasestorage.googleapis.com"],
+    formats: ["image/avif", "image/webp"],
+  },
 };

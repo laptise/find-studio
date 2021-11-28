@@ -10,6 +10,8 @@ export class Booth extends BaseEntity {
   studioId: number;
   @Column("text")
   name: string;
+  @Column("text")
+  topImage: string;
   @Column("datetime")
   createdAt: Date;
   @Column("datetime")

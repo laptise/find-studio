@@ -11,6 +11,7 @@ router.get("/", async (req: express.Request, res: express.Response): Promise<voi
   res.send("hello world");
 });
 
+app.use("/", router);
 app.use(express.static("public"));
 app.listen(5000, () => {
   console.log("listening on port 5000");

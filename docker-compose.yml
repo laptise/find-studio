@@ -36,6 +36,8 @@ services:
       - "4001:3000"
 
   files:
+    depends_on:
+     - db
     build:
       context: files
       dockerfile: Dockerfile
