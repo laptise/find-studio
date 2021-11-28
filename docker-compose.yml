@@ -8,7 +8,7 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: findStudio
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
       # MYSQL_USER: user #optional
       # MYSQL_PASSWORD: P@ssw0rd #optional
       # MYSQL_ALLOW_EMPTY_PASSWORD: "yes" #optional
@@ -34,3 +34,15 @@ services:
     command: sh -c "cd app && yarn run dev"
     ports:
       - "4001:3000"
+
+  files:
+    build:
+      context: files
+      dockerfile: Dockerfile
+    container_name: files
+    volumes:
+      - ./:/usr/src/files
+    command: sh -c "cd files && yarn run dev"
+    ports:
+      - "5000:5000"
+      

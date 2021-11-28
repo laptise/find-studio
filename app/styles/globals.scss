@@ -17,6 +17,7 @@ a {
 .hide {
   display: none !important;
 }
+
 .flex-col {
   display: flex;
   flex-direction: column;
@@ -155,6 +156,32 @@ header {
   display: flex;
   padding: 10px;
   justify-content: space-between;
+}
+#studioInfo {
+  h1.title {
+  }
+  div.meta {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    span {
+      font-size: 13px;
+    }
+  }
+  #boothes {
+    width: 100%;
+    .items {
+      display: flex;
+      .single {
+        flex: 1;
+        max-width: 200px;
+        border: 1px solid #ccc;
+        img.mainPicture {
+          width: 100%;
+        }
+      }
+    }
+  }
 }
 #searcher {
   width: 80%;

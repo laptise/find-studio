@@ -28,15 +28,22 @@ export default function StudioInfo({ studio, boothes }: StudioInfoProps) {
   const isAdmin = true;
   return (
     <Page title={studio.name} isAdmin={isAdmin} AdminBox={() => AdminBox(studio.id)}>
-      <div>
-        <h1>{studio.name}</h1>
-        <div>作成日 : {format(studio.createdAt, "yyyy年MM月dd日 h時m分")}</div>
-        <div>更新日 : {format(studio.updatedAt, "yyyy年MM月dd日 h時m分")}</div>
-        <div>
-          ブース
-          {boothes.map((booth) => (
-            <div key={booth.id}>{booth.name}</div>
-          ))}
+      <div id="studioInfo">
+        <h1 className="title">{studio.name}</h1>
+        <div className="meta">
+          <span>作成日 : {format(studio.createdAt, "yyyy年MM月dd日 h時m分")}</span>
+          <span>更新日 : {format(studio.updatedAt, "yyyy年MM月dd日 h時m分")}</span>
+        </div>
+        <div id="boothes">
+          <h2> ブース</h2>
+          <div className="items">
+            {boothes.map((booth) => (
+              <div className="single" key={booth.id}>
+                <h3>{booth.name}</h3>
+                <img className="mainPicture" src="#" />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </Page>
